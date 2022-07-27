@@ -1,47 +1,28 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { Background, Controls, MiniMap, VueFlow, useVueFlow } from '@braks/vue-flow'
+import { ref } from 'vue'
+import { initialElements } from './initial-elements'
+
+const { onConnect, addEdges } = useVueFlow()
+
+const elements = ref(initialElements)
+
+onConnect((params) => addEdges([params]))
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <VueFlow
+    v-model="elements"
+    class="basicflow"
+    :default-edge-options="{ type: 'smoothstep' }"
+    :default-zoom="1.5"
+    :min-zoom="0.2"
+    :max-zoom="4"
+    :fit-view-on-init="true"
+  >
+  <!-- @ts-ignore: fix later -->
+    <Background pattern-color="#aaa" gap="8" />
+    <MiniMap />
+    <Controls />
+  </VueFlow>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
