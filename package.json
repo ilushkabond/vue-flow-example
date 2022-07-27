@@ -9,6 +9,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@braks/vue-flow": "^0.4.30",
     "vue": "^3.2.37"
   },
   "devDependencies": {
