@@ -1,5 +1,13 @@
 <script setup lang="ts">
 import CustomNode from './CustomNode.vue';
+import { useVueFlow } from '@braks/vue-flow';
+import { ref } from 'vue';
+import { computed } from '@vue/reactivity';
+
+const flowKey = 'flow-key';
+const { setNodes, setEdges, setTransform, toObject } = useVueFlow();
+let snackbarMessage = ref('');
+let snackbarShow = ref(false);
 
 const onDragStart = (event: any, params: any) => {
   if (event.dataTransfer) {
@@ -17,13 +25,47 @@ const onCollapse = (event: any) => {
   }
   event.target.classList.toggle('active');
 };
+
+const onReset = () => {
+  setNodes([]);
+  setEdges([]);
+
+  showSnackbar('reset');
+}
+
+const onSave = () => {
+  localStorage.setItem(flowKey, JSON.stringify(toObject()));
+  showSnackbar('saved');
+}
+
+const onRestore = () => {
+  /* TODO: fix any */
+  const flow = JSON.parse(<any>localStorage.getItem(flowKey))
+
+  if (flow) {
+      const [x = 0, y = 0] = flow.position
+      setNodes(flow.nodes)
+      setEdges(flow.edges)
+      setTransform({ x, y, zoom: flow.zoom || 0})
+  }
+
+  showSnackbar('loaded');
+}
+
+const showSnackbar = (text: string) => {
+  snackbarMessage.value = text;
+  snackbarShow.value = true;
+}
+
+const removeSnackbar = () => { snackbarShow.value = false; }
 </script>
 
 <template>
   <div class="aside">
     <div class="controls">
-      <button>save</button>
-      <button>load</button>
+      <button class="control" @click="onReset">new</button>
+      <button class="control" @click="onSave">save</button>
+      <button class="control" @click="onRestore">load</button>
     </div>
     <div class="category">
       <button class="collapsible active" @click="onCollapse">Monitor</button>
@@ -60,5 +102,6 @@ const onCollapse = (event: any) => {
           :data="{ label: 'Analyze', icon: 'ruler', menu: true }" />
       </div>
     </div>
+  <div class="snackbar" :class="{ 'show': snackbarShow }" v-on:animationend="removeSnackbar">{{ snackbarMessage }}</div>
   </div>
 </template>

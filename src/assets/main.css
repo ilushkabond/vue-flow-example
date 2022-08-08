@@ -44,11 +44,12 @@ body,
   cursor: pointer;
   padding: 18px;
   width: 100%;
-  border: 1px dotted gray;
+  border: 0;
   outline: none;
   text-align: center;
   font-size: 16px;
   text-transform: uppercase;
+  user-select: none;
 }
 
 .collapsible::after {
@@ -108,4 +109,52 @@ body,
   justify-content: space-between;
   width: 160px;
   height: 32px;
+}
+
+.control {
+  color: black;
+  background: #fff;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 0;
+  outline: none;
+  text-align: center;
+  font-size: 16px;
+  text-transform: uppercase;
+  transition: background-color 5s fadein;
+}
+
+.control:hover {
+  background: #ccc;
+}
+
+.snackbar {
+  display: none;
+  min-width: 250px;
+  margin-left: -125px;
+  background: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: absolute;
+  z-index: 9;
+  left: 50%;
+  top: 15px;
+}
+
+.show {
+  display: block;
+  animation: fadein 0.5s, fadeout 0.5s 1.5s;
+}
+
+@keyframes fadein {
+  from { top: 0; opacity: 0; }
+  to { top: 15px; opacity: 1; }
+}
+
+@keyframes fadeout {
+  from { top: 15px; opacity: 1; }
+  to { top: 0; opacity: 0; }
 }

@@ -23,9 +23,6 @@ onConnect((params) => addEdges([params]))
 
 const onDrop = (event: any) => {
   const { label, icon } = JSON.parse(event.dataTransfer?.getData('application/vueflow'));
-
-  console.log('App.vue:', label, icon);
-
   const position = project({ x: event.layerX - nodeSize.width / 2, y: event.layerY - nodeSize.height / 2 });
   const newNode = {
     id: getId(),
