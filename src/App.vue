@@ -1,24 +1,56 @@
 <script setup lang="ts">
-import { Controls, MiniMap, VueFlow, useVueFlow } from '@braks/vue-flow'
-import { ref } from 'vue'
+import { Controls, MiniMap, VueFlow, useVueFlow, Background } from '@braks/vue-flow'
+import Sidebar from './Sidebar.vue'
 import CustomNode from './CustomNode.vue'
+import { markRaw, onMounted, ref } from 'vue';
 
-import { initialElements } from './initial-elements'
+const { onConnect, nodes, edges, addEdges, addNodes, viewport, project } = useVueFlow();
 
-const elements = ref(initialElements)
+let id = 0
+const getId = () => `node_${id++}`
+const gapSize = 8;
+const elements: any = ref([]);
+const nodeSize = { width: 160, height: 36 };
 
-const { onConnect, addEdges } = useVueFlow()
+const onDragOver = (event: any) => {
+  event.preventDefault()
+  if (event.dataTransfer) {
+    event.dataTransfer.dropEffect = 'move'
+  }
+}
 
 onConnect((params) => addEdges([params]))
+
+const onDrop = (event: any) => {
+  const { label, icon } = JSON.parse(event.dataTransfer?.getData('application/vueflow'));
+
+  console.log('App.vue:', label, icon);
+
+  const position = project({ x: event.layerX - nodeSize.width / 2, y: event.layerY - nodeSize.height / 2 });
+  const newNode = {
+    id: getId(),
+    label: label,
+    type: 'custom',
+    position: position,
+    data: { label: label, icon: icon },
+  }
+  addNodes([newNode])
+}
+
+onMounted(() => {
+  elements.value = []
+});
 </script>
 
 <template>
-  <VueFlow v-model="elements" class="customnodeflow" :default-edge-options="{ type: 'smoothstep' }" :default-zoom="1"
-    :min-zoom="0.2" :max-zoom="4" :fit-view-on-init="true">
+  <Sidebar />
+  <VueFlow v-model="elements" @dragover="onDragOver" class="customnodeflow"
+    :default-edge-options="{ type: 'smoothstep' }" :default-zoom="1" :min-zoom="0.2" :max-zoom="4"
+    :fit-view-on-init="true" @drop="onDrop">
     <template #node-custom="props">
-      <CustomNode :data="props.data" />
+      <CustomNode v-bind="props" />
     </template>
-    <MiniMap />
+    <Background :gap="gapSize" />
     <Controls />
   </VueFlow>
 </template>

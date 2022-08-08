@@ -16,6 +16,7 @@ body,
   text-align: center;
   color: #2c3e50;
   background: #e4e4e4;
+  display: flex;
 }
 
 .vue-flow__minimap {
@@ -35,4 +36,76 @@ body,
 
 .vue-flow__handle {
   border: 1px solid #3f3f3f;
+}
+
+.collapsible {
+  color: black;
+  background: #fff;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: 1px dotted gray;
+  outline: none;
+  text-align: center;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.collapsible::after {
+  content: '\002B';
+  color: black;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  color: black;
+  content: "\2212";
+}
+
+.aside {
+  color: #fff;
+  font-weight: 700;
+  border-right: 1px solid #eee;
+  padding: 15px 10px;
+  font-size: 12px;
+  background: white;
+  -webkit-box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, .3);
+  box-shadow: 0 5px 10px #0000004d;
+  align-items: center;
+  min-width: 20%;
+}
+
+.aside .category {
+  color: black;
+  padding: 0 18px;
+  transition: display 0.2s ease-out;
+}
+
+.aside .category > * {
+  margin: 0 auto 10px;
+}
+
+.aside .controls {
+  margin-bottom: 10px;
+}
+
+.vue-flow-wrapper {
+  flex-grow: 1;
+  height: 100%;
+}
+
+.nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.custom__node {
+  display: flex;
+  justify-content: space-between;
+  width: 160px;
+  height: 32px;
 }
