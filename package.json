@@ -9,7 +9,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "@braks/vue-flow": "^0.4.34",
+    "@braks/vue-flow": "^0.4.36",
     "vue": "^3.2.37",
     "vue-material-design-icons": "^5.1.2"
   },
