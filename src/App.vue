@@ -2,7 +2,8 @@
 import { Controls, MiniMap, VueFlow, useVueFlow, Background } from '@braks/vue-flow'
 import Sidebar from './Sidebar.vue'
 import CustomNode from './CustomNode.vue'
-import { onMounted, ref } from 'vue';
+import Properties from './Properties.vue'
+import { ref } from 'vue';
 
 const { onConnect, nodes, edges, addEdges, addNodes, viewport, project } = useVueFlow();
 
@@ -46,4 +47,5 @@ const onDrop = (event: any) => {
     <Background :gap="gapSize" />
     <Controls />
   </VueFlow>
+  <Properties />
 </template>
